@@ -14,7 +14,7 @@ namespace TerminalWizard
             var top = Application.Top;
 
             //Create top level window to show
-            var _mainWindow = new Window(title: "Hive Appliance Console")
+            var mainWindow = new Window(title: "Hive Appliance Console")
             {
                 X = 0,
                 Y = 1,
@@ -30,57 +30,59 @@ namespace TerminalWizard
                     { 
                         if (Quit()) 
                         {
-                            Application.RequestStop(); 
+                            top.Running = false;
                         }
                     })
                 })
             });
 
-            var _formWindow = new FrameView(title: "")
+            var formWindow = new FrameView(title: "")
             {
                 Height = Dim.Percent(99)
             };
 
-            var _eula = new Eula();
-            var _hostname = new Hostname();
+            var eula = new Eula();
+            var hostname = new Hostname();
 
-            var _childFormContainer = _eula.LoadView(); 
-            var _childFormContainer1 = _hostname.LoadView();
-            _formWindow.Add(_childFormContainer);
+            var eulaContainer = eula.LoadView(); 
+            var hostnameContainer = hostname.LoadView();
+            formWindow.Add(eulaContainer);
 
-            var _btnNext = new Button(text: "Next") 
+            var btnNext = new Button(text: "Next") 
             { 
                 Id = "btnNext",
                 X = Pos.Center() + 4,
-                Y = Pos.Bottom(_formWindow)
+                Y = Pos.Bottom(formWindow)
             };
-            _btnNext.Clicked += () => {
+            btnNext.Clicked += () => 
+            {
                 Application.RequestStop();
-                _formWindow.RemoveAll();
-                _formWindow.Add(_childFormContainer1);
+                formWindow.RemoveAll();
+                formWindow.Add(hostnameContainer);
             };
-            var _btnPrevious = new Button("Previous")
+            var btnPrevious = new Button("Previous")
             {
                 Id = "btnPrevious",
                 X = Pos.Center() - 10,
-                Y = Pos.Bottom(_formWindow),
+                Y = Pos.Bottom(formWindow),
             };
-            _btnPrevious.Clicked += () => {
+            btnPrevious.Clicked += () => 
+            {
                 Application.RequestStop();
-                _formWindow.RemoveAll();
-                _formWindow.Add(_childFormContainer);
+                formWindow.RemoveAll();
+                formWindow.Add(eulaContainer);
             };
 
-            _mainWindow.Add(_formWindow, _btnPrevious, _btnNext);
+            mainWindow.Add(formWindow, btnPrevious, btnNext);
 
             top.Add(
                 menu,
-                _mainWindow
+                mainWindow
             );
             Application.Run();
         }
 
-        static bool Quit ()
+        static bool Quit()
         {
             var n = MessageBox.Query (50, 7, "Quit setup", "Are you sure you want to quit setup process?", "Yes", "No");
             return n.Equals(0);

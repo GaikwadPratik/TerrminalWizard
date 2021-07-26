@@ -16,7 +16,7 @@ namespace TerminalWizard
                 Id = "frmHostname"
             };
 
-            var _textView = new TextField("Test2")
+            var textView = new TextField("Test2")
             {
                 X = 10,
                 Y = 10,
@@ -24,7 +24,7 @@ namespace TerminalWizard
                 Id = "txthostname"
             };
 
-            container.Add(_textView);
+            container.Add(textView);
 
             return container;
         }
