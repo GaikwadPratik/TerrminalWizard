@@ -14,7 +14,7 @@ namespace TerminalWizard
             var top = Application.Top;
 
             //Create top level window to show
-            var _mainWindow = new Window("Hive Appliance Console")
+            var _mainWindow = new Window(title: "Hive Appliance Console")
             {
                 X = 0,
                 Y = 1,
@@ -22,13 +22,13 @@ namespace TerminalWizard
                 Height = Dim.Fill() - 1
             };
 
-            var menu = new MenuBar(new MenuBarItem [] 
+            var menu = new MenuBar(menus: new MenuBarItem [] 
             {
-                new MenuBarItem("_Menu", new MenuItem [] 
+                new MenuBarItem(title: "_Menu", children: new MenuItem [] 
                 {
-                    new MenuItem ("_Quit", "", () => 
+                    new MenuItem (title: "_Quit", help: "", action: () => 
                     { 
-                        if (Quit ()) 
+                        if (Quit()) 
                         {
                             Application.RequestStop(); 
                         }
@@ -36,7 +36,7 @@ namespace TerminalWizard
                 })
             });
 
-            var _formWindow = new FrameView("")
+            var _formWindow = new FrameView(title: "")
             {
                 Height = Dim.Percent(99)
             };
@@ -48,21 +48,27 @@ namespace TerminalWizard
             var _childFormContainer1 = _hostname.LoadView();
             _formWindow.Add(_childFormContainer);
 
-            var _btnNext = new Button("Next") 
+            var _btnNext = new Button(text: "Next") 
             { 
                 Id = "btnNext",
                 X = Pos.Center() + 4,
-                Y = Pos.Bottom(_formWindow),
-                Clicked = () => {
-                    _formWindow.RemoveAll();
-                    _formWindow.Add(_childFormContainer1);
-                }
+                Y = Pos.Bottom(_formWindow)
+            };
+            _btnNext.Clicked += () => {
+                Application.RequestStop();
+                _formWindow.RemoveAll();
+                _formWindow.Add(_childFormContainer1);
             };
             var _btnPrevious = new Button("Previous")
             {
                 Id = "btnPrevious",
                 X = Pos.Center() - 10,
-                Y = Pos.Bottom(_formWindow)
+                Y = Pos.Bottom(_formWindow),
+            };
+            _btnPrevious.Clicked += () => {
+                Application.RequestStop();
+                _formWindow.RemoveAll();
+                _formWindow.Add(_childFormContainer);
             };
 
             _mainWindow.Add(_formWindow, _btnPrevious, _btnNext);

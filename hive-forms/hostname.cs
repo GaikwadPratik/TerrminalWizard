@@ -11,14 +11,17 @@ namespace TerminalWizard
         {
             var container = new FrameView("Host name")
             {
-                Height = Dim.Percent(100),
-                Width = Dim.Percent(100)
+                Height = Dim.Fill(),
+                Width = Dim.Fill(),
+                Id = "frmHostname"
             };
 
             var _textView = new TextField("Test2")
             {
                 X = 10,
-                Y = 10
+                Y = 10,
+                Width = Dim.Fill() - 25,
+                Id = "txthostname"
             };
 
             container.Add(_textView);

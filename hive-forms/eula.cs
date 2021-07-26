@@ -20,12 +20,13 @@ namespace TerminalWizard
             X = 2,
             Y = 1,
             Width = Dim.Percent(98),
-            Height = Dim.Percent(98)
+            Height = Dim.Percent(98),
+            ReadOnly = true
         };
         _textView.Text = _eulaText;
         container.Add(_textView);
         
-        var _consent = new RadioGroup(new [] {"I accept", "I decline"}, 0)
+        var _consent = new RadioGroup(radioLabels: new NStack.ustring[] {"I accept", "I decline"}, selected: 0)
         {
             X = Pos.Center(),
             Y = Pos.Bottom(_textView)
