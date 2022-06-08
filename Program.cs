@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Terminal.Gui;
 
 namespace TerminalWizard
@@ -36,44 +35,24 @@ namespace TerminalWizard
                 })
             });
 
-            var formWindow = new FrameView(title: "")
-            {
-                Height = Dim.Percent(99)
-            };
+            var backBtn = new Button("Back");
+            var nextBtn = new Button("Next");
+            nextBtn.IsDefault = true;
+            var wizard = new Wizard("Demo Wizard", new Button[]{ backBtn, nextBtn });
+            wizard.Steps.Add(new Wizard.WizardStep("First Step"));
+            wizard.Steps[0].HelpPane.Text = "This is the help text for the First Step.";
+            var editLbl = new Label() { Text = "Edit: ", AutoSize = true, X = 1, Y = 10 };
 
-            var eula = new Eula();
-            var hostname = new Hostname();
+            var edit = new TextField() {
+                Text = "hello world",
+                X = Pos.Right(editLbl),
+                Y = Pos.Top(editLbl),
+                Width = 40,
+            };
+            wizard.Steps[0].ControlPane.Add(editLbl, edit);
 
-            var eulaContainer = eula.LoadView(); 
-            var hostnameContainer = hostname.LoadView();
-            formWindow.Add(eulaContainer);
-
-            var btnNext = new Button(text: "Next") 
-            { 
-                Id = "btnNext",
-                X = Pos.Center() + 4,
-                Y = Pos.Bottom(formWindow)
-            };
-            btnNext.Clicked += () => 
-            {
-                Application.RequestStop();
-                formWindow.RemoveAll();
-                formWindow.Add(hostnameContainer);
-            };
-            var btnPrevious = new Button("Previous")
-            {
-                Id = "btnPrevious",
-                X = Pos.Center() - 10,
-                Y = Pos.Bottom(formWindow),
-            };
-            btnPrevious.Clicked += () => 
-            {
-                Application.RequestStop();
-                formWindow.RemoveAll();
-                formWindow.Add(eulaContainer);
-            };
-
-            mainWindow.Add(formWindow, btnPrevious, btnNext);
+            wizard.Add(wizard.Steps[0]);
+            mainWindow.Add(wizard);
 
             top.Add(
                 menu,
