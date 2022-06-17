@@ -1,32 +1,41 @@
-using System;
 using Terminal.Gui;
 
 namespace TerminalWizard
 {
-    public class Hostname
+  public class Hostname : HiveView
+  {
+    protected TextField txtHostname = null;
+    public Wizard.WizardStep LoadView()
     {
-        public string Title { get; set; }
+      var container = new Wizard.WizardStep(title: "Host name");
+      var lblHostname = new Label(text: "Set Hostname: ")
+      {
+        Id = "lblHostname"
+      };
+      container.Controls.Add(view: lblHostname);
 
-        public FrameView LoadView()
-        {
-            var container = new FrameView("Host name")
-            {
-                Height = Dim.Fill(),
-                Width = Dim.Fill(),
-                Id = "frmHostname"
-            };
+      txtHostname = new TextField("Hive 1")
+      {
+        X = Pos.Right(view: lblHostname),
+        Y = Pos.Top(view: lblHostname),
+        Width = Dim.Percent(35),
+        Id = "txtHostname"
+      };
+      container.HelpText = "Hostname Help \n Enter the hostname for the appliance.";
 
-            var textView = new TextField("Test2")
-            {
-                X = 10,
-                Y = 10,
-                Width = Dim.Fill() - 25,
-                Id = "txthostname"
-            };
+      container.Controls.Add(view: txtHostname);
 
-            container.Add(textView);
-
-            return container;
-        }
+      return container;
     }
+
+    public bool ReadValues(ref HiveConfig test)
+    {
+      if (txtHostname == null)
+      {
+        return false;
+      }
+      test.Hostname = txtHostname.Text.ToString();
+      return true;
+    }
+  }
 }

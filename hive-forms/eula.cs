@@ -3,39 +3,65 @@ using Terminal.Gui;
 
 namespace TerminalWizard
 {
-  public class Eula
+  public class Eula : HiveView
   {
     public string Title { get; set; }
 
-    public FrameView LoadView()
+    public Wizard.WizardStep LoadView()
     {
-        var container = new FrameView(title: "EULA")
+      var container = new Wizard.WizardStep(title: "EULA");
+      container.ShowHelp = false;
+      var textView = new TextView()
+      {
+        X = 0,
+        Y = 0,
+        Width = Dim.Fill(),
+        Height = Dim.Fill(),
+        ReadOnly = true,
+        Text = eulaText,
+        WordWrap = true,
+        Id = "txtEula"
+      };
+      container.Controls.Add(view: textView);
+      var scrollBar = new ScrollBarView(textView, true, false);
+      scrollBar.CanFocus = false;
+      scrollBar.ChangedPosition += () =>
+      {
+        textView.TopRow = scrollBar.Position;
+        if (textView.TopRow != scrollBar.Position)
         {
-			Id = "containerEula",
-			Height = Dim.Percent(100),
-			Width = Dim.Percent(100)
-        };
-        
-        var textView = new TextView()
+          scrollBar.Position = textView.TopRow;
+        }
+        textView.SetNeedsDisplay();
+      };
+
+      scrollBar.VisibleChanged += () =>
+      {
+        if (scrollBar.Visible && textView.RightOffset == 0)
         {
-            X = 2,
-            Y = 1,
-            Width = Dim.Percent(98),
-            Height = Dim.Percent(98),
-            ReadOnly = true,
-			Text = eulaText,
-			Id = "txtEula"
-        };
-        container.Add(textView);
-        
-        var consent = new RadioGroup(radioLabels: new NStack.ustring[] {"I accept", "I decline"}, selected: 0)
+          textView.RightOffset = 1;
+        }
+        else if (!scrollBar.Visible && textView.RightOffset == 1)
         {
-			Id = "rbEula",
-            X = Pos.Center(),
-            Y = Pos.Bottom(textView)
-        };
-        container.Add(consent);
-        return container;
+          textView.RightOffset = 0;
+        }
+      };
+
+      textView.DrawContent += (e) =>
+      {
+        scrollBar.Size = textView.Lines;
+        scrollBar.Position = textView.TopRow;
+        if (scrollBar.OtherScrollBarView != null)
+        {
+          scrollBar.OtherScrollBarView.Size = textView.Maxlength;
+          scrollBar.OtherScrollBarView.Position = textView.LeftColumn;
+        }
+        scrollBar.LayoutSubviews();
+        scrollBar.Refresh();
+      };
+      container.Controls.Add(view: scrollBar);
+      container.NextButtonText = "I Agree";
+      return container;
     }
 
     const string eulaText = @"Miusov, as a man man of breeding and deilcacy, could not but feel some inwrd qualms, when he reached the Father Superior's with Ivan: he felt ashamed of havin lost his temper. He felt that he ought to have disdaimed that despicable wretch, Fyodor Pavlovitch, too much to have been upset by him in Father Zossima's cell, and so to have forgotten himself. Teh monks were not to blame, in any case, he reflceted, on the steps. And if they're decent people here (and the Father Superior, I understand, is a nobleman) why not be friendly and courteous withthem? I won't argue, I'll fall in with everything, I'll win them by politness, and show them that I've nothing to do with that Aesop, thta buffoon, that Pierrot, and have merely been takken in over this affair, just as they have.
@@ -149,5 +175,10 @@ Fyodor Pavlovitch waited anohter two minites.
 But I shall take Alyosha away from the monastery, though you will dislike it so much, most honored Karl von Moor.
 
 Ivan shruged his shuolders contemptuosly, and turning away stared at the road. And they did not speek again all the way home.";
+
+    public bool ReadValues(ref HiveConfig test)
+    {
+      return true;
+    }
   }
 }
