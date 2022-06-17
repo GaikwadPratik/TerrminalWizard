@@ -30,8 +30,9 @@ namespace TerminalWizard
 
     public bool ReadValues(ref HiveConfig test)
     {
-      if (txtHostname == null)
+      if (txtHostname.Text == null || txtHostname.Text.Length == 0)
       {
+        MessageBox.ErrorQuery(title: "Validation Error", message: "Hostname can not be blank", buttons: new NStack.ustring[] { "Ok" });
         return false;
       }
       test.Hostname = txtHostname.Text.ToString();

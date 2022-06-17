@@ -88,11 +88,22 @@ namespace TerminalWizard
 
     public bool ReadValues(ref HiveConfig test)
     {
-      if (newPassword.Length == 0 || confirmPassword.Length == 0 || newPassword != confirmPassword)
+      if (newPassword.Length == 0)
+      {
+        MessageBox.ErrorQuery(title: "Validation Error", message: "New password can not be blank", buttons: new NStack.ustring[] { "Ok" });
+        return false;
+      }
+      if (confirmPassword.Length == 0)
+      {
+        MessageBox.ErrorQuery(title: "Validation Error", message: "Confirm password can not be blank", buttons: new NStack.ustring[] { "Ok" });
+        return false;
+      }
+      if (newPassword != confirmPassword)
       {
         MessageBox.ErrorQuery(title: "Validation Error", message: "New password and confirm password do not match", buttons: new NStack.ustring[] { "Ok" });
         return false;
       }
+      test.Password = newPassword;
       return true;
     }
   }
