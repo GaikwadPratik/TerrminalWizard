@@ -1,8 +1,8 @@
 using Terminal.Gui;
 
-namespace TerminalWizard
+namespace TerminalWizard.FBW.Steps
 {
-  public class Hostname : HiveView
+  public class HostnameStep : IFBWSteps
   {
     protected TextField txtHostname = null;
     public Wizard.WizardStep LoadView()

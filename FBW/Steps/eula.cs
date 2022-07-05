@@ -1,9 +1,9 @@
 using System;
 using Terminal.Gui;
 
-namespace TerminalWizard
+namespace TerminalWizard.FBW.Steps
 {
-  public class Eula : HiveView
+  public class EulaStep : IFBWSteps
   {
     public string Title { get; set; }
 

@@ -1,8 +1,8 @@
 using Terminal.Gui;
 
-namespace TerminalWizard
+namespace TerminalWizard.FBW.Steps
 {
-  class Password : HiveView
+  class PasswordStep : IFBWSteps
   {
     protected TextField txtPassword = null;
     protected string newPassword = "";

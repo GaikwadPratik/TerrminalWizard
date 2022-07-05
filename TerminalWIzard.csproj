@@ -6,12 +6,12 @@
      <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Terminal.Gui" Version="1.6.4" />
-  </ItemGroup>
-
   <!-- <ItemGroup>
-    <ProjectReference Include="..\gui.cs\Terminal.Gui\Terminal.Gui.csproj" />
+    <PackageReference Include="Terminal.Gui" Version="1.6.4" />
   </ItemGroup> -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\gui.cs\Terminal.Gui\Terminal.Gui.csproj" />
+  </ItemGroup>
 
 </Project>
