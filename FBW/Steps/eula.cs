@@ -4,7 +4,7 @@ using Terminal.Gui;
 namespace TerminalWizard.FBW.Steps
 {
   public class EulaStep : IFBWStep {
-    public string Title { get; } = "EulaStep";
+    public string Title { get; } = "End User License Agreement (EULA)";
     public Wizard.WizardStep LoadView() {
       var container = new Wizard.WizardStep(title: Title);
       var textView = new TextView()

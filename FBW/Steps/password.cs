@@ -3,14 +3,14 @@ using Terminal.Gui;
 namespace TerminalWizard.FBW.Steps
 {
   public class PasswordStep : IFBWStep {
-    public string Title { get; } = "PasswordStep";
+    public string Title { get; } = "Set Password";
     protected TextField txtPassword = null;
     protected string newPassword = "";
     protected string confirmPassword = "";
     public Wizard.WizardStep LoadView()
     {
       var container = new Wizard.WizardStep(title: Title);
-      container.HelpText = "Admin User Password Help \n Set the password for the admin user, this is the administrative account used to login to the web administrative.";
+      container.HelpText = "Admin User Password Help \nSet the password for the admin user, this is the administrative account used to login to the web administrative.";
       var lblPassword = new Label(text: "New Password: ")
       {
         Id = "lblPassword",
