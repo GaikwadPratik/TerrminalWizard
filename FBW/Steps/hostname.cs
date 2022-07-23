@@ -3,12 +3,12 @@ using Terminal.Gui;
 namespace TerminalWizard.FBW.Steps
 {
   public class HostnameStep : IFBWStep {
-    public string Title { get; } = "HostnameStep";
+    public string Title { get; } = "Set Host Name";
     protected TextField txtHostname = null;
 
     public Wizard.WizardStep LoadView() {
       var container = new Wizard.WizardStep(title: Title);
-      var lblHostname = new Label(text: "Set Hostname: ") {
+      var lblHostname = new Label(text: "Hostname: ") {
         Id = "lblHostname"
       };
       container.Add(view: lblHostname);
@@ -19,7 +19,7 @@ namespace TerminalWizard.FBW.Steps
         Width = Dim.Percent(35),
         Id = "txtHostname"
       };
-      container.HelpText = "Hostname Help \n Enter the hostname for the appliance.";
+      container.HelpText = "Hostname Help \nEnter the hostname for the appliance.";
 
       container.Add(view: txtHostname);
 
