@@ -3,14 +3,10 @@ using Terminal.Gui;
 
 namespace TerminalWizard.FBW.Steps
 {
-  public class EulaStep : IFBWSteps
-  {
-    public string Title { get; set; }
-
-    public Wizard.WizardStep LoadView()
-    {
-      var container = new Wizard.WizardStep(title: "EULA");
-      container.ShowHelp = false;
+  public class EulaStep : IFBWStep {
+    public string Title { get; } = "EulaStep";
+    public Wizard.WizardStep LoadView() {
+      var container = new Wizard.WizardStep(title: Title);
       var textView = new TextView()
       {
         X = 0,
@@ -22,7 +18,7 @@ namespace TerminalWizard.FBW.Steps
         WordWrap = true,
         Id = "txtEula"
       };
-      container.Controls.Add(view: textView);
+      container.Add(view: textView);
       var scrollBar = new ScrollBarView(textView, true, false);
       scrollBar.CanFocus = false;
       scrollBar.ChangedPosition += () =>
@@ -59,9 +55,13 @@ namespace TerminalWizard.FBW.Steps
         scrollBar.LayoutSubviews();
         scrollBar.Refresh();
       };
-      container.Controls.Add(view: scrollBar);
+      container.Add(view: scrollBar);
       container.NextButtonText = "I Agree";
       return container;
+    }
+
+    public bool ReadValues(ref HiveConfig hiveConfig) {
+      return true;
     }
 
     const string eulaText = @"Miusov, as a man man of breeding and deilcacy, could not but feel some inwrd qualms, when he reached the Father Superior's with Ivan: he felt ashamed of havin lost his temper. He felt that he ought to have disdaimed that despicable wretch, Fyodor Pavlovitch, too much to have been upset by him in Father Zossima's cell, and so to have forgotten himself. Teh monks were not to blame, in any case, he reflceted, on the steps. And if they're decent people here (and the Father Superior, I understand, is a nobleman) why not be friendly and courteous withthem? I won't argue, I'll fall in with everything, I'll win them by politness, and show them that I've nothing to do with that Aesop, thta buffoon, that Pierrot, and have merely been takken in over this affair, just as they have.
@@ -175,10 +175,5 @@ Fyodor Pavlovitch waited anohter two minites.
 But I shall take Alyosha away from the monastery, though you will dislike it so much, most honored Karl von Moor.
 
 Ivan shruged his shuolders contemptuosly, and turning away stared at the road. And they did not speek again all the way home.";
-
-    public bool ReadValues(ref HiveConfig test)
-    {
-      return true;
-    }
   }
 }

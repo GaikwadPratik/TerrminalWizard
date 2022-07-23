@@ -2,14 +2,14 @@ using Terminal.Gui;
 
 namespace TerminalWizard.FBW.Steps
 {
-  class PasswordStep : IFBWSteps
-  {
+  public class PasswordStep : IFBWStep {
+    public string Title { get; } = "PasswordStep";
     protected TextField txtPassword = null;
     protected string newPassword = "";
     protected string confirmPassword = "";
     public Wizard.WizardStep LoadView()
     {
-      var container = new Wizard.WizardStep(title: "Host name");
+      var container = new Wizard.WizardStep(title: Title);
       container.HelpText = "Admin User Password Help \n Set the password for the admin user, this is the administrative account used to login to the web administrative.";
       var lblPassword = new Label(text: "New Password: ")
       {
@@ -18,7 +18,7 @@ namespace TerminalWizard.FBW.Steps
         AutoSize = true
       };
 
-      container.Controls.Add(view: lblPassword);
+      container.Add(view: lblPassword);
 
       txtPassword = new TextField(text: "")
       {
@@ -45,7 +45,7 @@ namespace TerminalWizard.FBW.Steps
         }
       };
 
-      container.Controls.Add(txtPassword);
+      container.Add(txtPassword);
 
       var lblConfirmPassword = new Label(text: "Confirm Password: ")
       {
@@ -54,7 +54,7 @@ namespace TerminalWizard.FBW.Steps
         Y = Pos.Bottom(view: lblPassword) + 1,
         AutoSize = true
       };
-      container.Controls.Add(view: lblConfirmPassword);
+      container.Add(view: lblConfirmPassword);
 
       var txtConfirmPassword = new TextField("")
       {
@@ -81,12 +81,12 @@ namespace TerminalWizard.FBW.Steps
         }
       };
 
-      container.Controls.Add(view: txtConfirmPassword);
+      container.Add(view: txtConfirmPassword);
 
       return container;
     }
 
-    public bool ReadValues(ref HiveConfig test)
+    public bool ReadValues(ref HiveConfig hiveConfig)
     {
       if (newPassword.Length == 0)
       {
@@ -103,7 +103,7 @@ namespace TerminalWizard.FBW.Steps
         MessageBox.ErrorQuery(title: "Validation Error", message: "New password and confirm password do not match", buttons: new NStack.ustring[] { "Ok" });
         return false;
       }
-      test.Password = newPassword;
+      hiveConfig.Password = newPassword;
       return true;
     }
   }
